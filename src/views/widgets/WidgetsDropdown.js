@@ -172,7 +172,7 @@ const WidgetsDropdown = () => {
       <CCol sm={6} lg={3}>
         <CWidgetStatsA
           className="mb-4"
-          color="warning"
+          color="danger"
           value={
             <>
               7.49{' '}
@@ -239,7 +239,7 @@ const WidgetsDropdown = () => {
       <CCol sm={6} lg={3}>
         <CWidgetStatsA
           className="mb-4"
-          color="danger"
+          color="warning"
           value={
             <>
               44K{' '}

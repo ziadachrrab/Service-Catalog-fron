@@ -19,7 +19,7 @@ import {
   InputLabel,
 } from '@mui/material'
 import { CToast, CToastClose, CToastBody } from '@coreui/react'
-import { Delete, Edit, Visibility } from '@mui/icons-material'
+import { Delete, Edit, Visibility, QrCode2 } from '@mui/icons-material'
 import PropTypes from 'prop-types'
 import { useNavigate } from 'react-router-dom'
 
@@ -338,12 +338,12 @@ const Products = () => {
         onEditingRowCancel={handleCancelRowEdits}
         renderRowActions={({ row, table }) => (
           <Box sx={{ display: 'flex', gap: '1rem' }}>
-            <Tooltip arrow placement="left" title="Edit">
+            <Tooltip arrow placement="bottom" title="Edit">
               <IconButton onClick={() => table.setEditingRow(row)}>
                 <Edit />
               </IconButton>
             </Tooltip>
-            <Tooltip arrow placement="right" title="Delete">
+            <Tooltip arrow placement="bottom" title="Delete">
               <IconButton color="error" onClick={() => handleDeleteRow(row)}>
                 <Delete />
               </IconButton>
@@ -351,6 +351,11 @@ const Products = () => {
             <Tooltip arrow placement="bottom" title="View Details">
               <IconButton color="primary" onClick={() => navigate(`/products/productState`)}>
                 <Visibility />
+              </IconButton>
+            </Tooltip>
+            <Tooltip arrow placement="bottom" title="Download QR">
+              <IconButton color="primary">
+                <QrCode2 />
               </IconButton>
             </Tooltip>
           </Box>

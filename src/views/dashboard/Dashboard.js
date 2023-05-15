@@ -1,7 +1,6 @@
 import {
   cibAdobeIllustrator,
   cibApple,
-  cibCcAmex,
   cibCcApplePay,
   cibCcMastercard,
   cibCcPaypal,
@@ -11,8 +10,8 @@ import {
   cibEclipseide,
   cifBr,
   cifEs,
-  cifFr,
   cifIn,
+  cifMa,
   cifPl,
   cifUs,
   cilBasket,
@@ -98,7 +97,7 @@ const Dashboard = () => {
         new: true,
         registered: 'Jan 1, 2021',
       },
-      country: { name: 'USA', flag: cifUs },
+      country: { name: 'Morocco', flag: cifMa },
       usage: {
         value: 50,
         period: 'Jun 11, 2021 - Jul 10, 2021',
@@ -138,7 +137,7 @@ const Dashboard = () => {
     {
       avatar: { src: avatar4, status: 'secondary' },
       user: { name: 'Enéas Kwadwo', new: true, registered: 'Jan 1, 2021' },
-      country: { name: 'France', flag: cifFr },
+      country: { name: 'USA', flag: cifUs },
       usage: {
         value: 98,
         period: 'Jun 11, 2021 - Jul 10, 2021',
@@ -176,7 +175,7 @@ const Dashboard = () => {
         period: 'Jun 11, 2021 - Jul 10, 2021',
         color: 'success',
       },
-      payment: { name: 'Amex', icon: cibCcAmex },
+      payment: { name: 'Amex', icon: cibCcMastercard },
       activity: 'Last week',
     },
   ]
@@ -400,9 +399,8 @@ const Dashboard = () => {
                     </CTableHeaderCell>
                     <CTableHeaderCell>User</CTableHeaderCell>
                     <CTableHeaderCell className="text-center">Country</CTableHeaderCell>
-                    <CTableHeaderCell>Usage</CTableHeaderCell>
+                    <CTableHeaderCell>Purchases</CTableHeaderCell>
                     <CTableHeaderCell className="text-center">Payment Method</CTableHeaderCell>
-                    <CTableHeaderCell>Activity</CTableHeaderCell>
                   </CTableRow>
                 </CTableHead>
                 <CTableBody>
@@ -434,10 +432,6 @@ const Dashboard = () => {
                       </CTableDataCell>
                       <CTableDataCell className="text-center">
                         <CIcon size="xl" icon={item.payment.icon} />
-                      </CTableDataCell>
-                      <CTableDataCell>
-                        <div className="small text-medium-emphasis">Last login</div>
-                        <strong>{item.activity}</strong>
                       </CTableDataCell>
                     </CTableRow>
                   ))}
