@@ -1,6 +1,6 @@
-# Contributing to CoreUI
+# Contributing
 
-Looking to contribute something to CoreUI? **Here's how you can help.**
+Looking to contribute something**Here's how you can help.**
 
 Please take a moment to review this document in order to make the contribution process easy and effective for everyone involved.
 
