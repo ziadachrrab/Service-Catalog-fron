@@ -288,7 +288,7 @@ const Brands = () => {
             muiTableHeadCellProps: {
               align: 'center',
             },
-            size: 120,
+            size: 70,
           },
         }}
         columns={columns}
@@ -299,13 +299,13 @@ const Brands = () => {
         onEditingRowSave={handleSaveRowEdits}
         onEditingRowCancel={handleCancelRowEdits}
         renderRowActions={({ row, table }) => (
-          <Box sx={{ display: 'flex', gap: '1rem' }}>
-            <Tooltip arrow placement="left" title="Edit">
+          <Box sx={{ display: 'flex', gap: '1rem', justifyContent: 'center' }}>
+            <Tooltip arrow placement="bottom" title="Edit">
               <IconButton onClick={() => table.setEditingRow(row)}>
                 <Edit />
               </IconButton>
             </Tooltip>
-            <Tooltip arrow placement="right" title="Delete">
+            <Tooltip arrow placement="bottom" title="Delete">
               <IconButton color="error" onClick={() => handleDeleteRow(row)}>
                 <Delete />
               </IconButton>

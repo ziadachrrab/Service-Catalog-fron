@@ -1,14 +1,11 @@
-import React, { useEffect, useState } from 'react'
-import { Link, useLocation, useNavigate } from 'react-router-dom'
+import React, { useEffect } from 'react'
+import { Link } from 'react-router-dom'
 import { CButton } from '@coreui/react'
 import CIcon from '@coreui/icons-react'
 import Model from 'src/assets/images/model.jpg'
 import { cilArrowThickToLeft } from '@coreui/icons'
 
-function State(props) {
-  const location = useLocation()
-  const navigate = useNavigate()
-  const rowData = location.state
+function State() {
   useEffect(() => {
     randomlyActivateCheckbox()
   }, [])

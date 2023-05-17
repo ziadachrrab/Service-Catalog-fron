@@ -12,6 +12,8 @@ import 'simplebar/dist/simplebar.min.css'
 // sidebar nav config
 import navigation from '../_nav'
 import { cibAtom } from '@coreui/icons/dist/esm'
+import { logoNegative } from 'src/assets/brand/logo-negative'
+import { sygnet } from 'src/assets/brand/sygnet'
 
 const AppSidebar = () => {
   const dispatch = useDispatch()
@@ -27,10 +29,14 @@ const AppSidebar = () => {
         dispatch({ type: 'set', sidebarShow: visible })
       }}
     >
-      <CSidebarBrand className="d-none d-md-flex" to="/">
+      {/* <CSidebarBrand className="d-none d-md-flex" to="/">
         <CIcon className="sidebar-brand-full" icon={cibAtom} height={35} />
         <span className="sidebar-brand-text1">Service</span>
         <span className="sidebar-brand-text2">HUB</span>
+      </CSidebarBrand> */}
+      <CSidebarBrand className="d-none d-md-flex" to="/">
+        <CIcon className="sidebar-brand-full" icon={logoNegative} height={35} />
+        <CIcon className="sidebar-brand-narrow" icon={cibAtom} height={35} />
       </CSidebarBrand>
       <CSidebarNav>
         <SimpleBar>

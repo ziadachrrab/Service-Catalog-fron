@@ -19,7 +19,7 @@ import {
   InputLabel,
 } from '@mui/material'
 import { CToast, CToastClose, CToastBody } from '@coreui/react'
-import { Delete, Edit, Visibility, QrCode2 } from '@mui/icons-material'
+import { Delete, Edit, Visibility, QrCodeScannerOutlined } from '@mui/icons-material'
 import PropTypes from 'prop-types'
 import { useNavigate } from 'react-router-dom'
 
@@ -355,7 +355,7 @@ const Products = () => {
             </Tooltip>
             <Tooltip arrow placement="bottom" title="Download QR">
               <IconButton color="primary">
-                <QrCode2 />
+                <QrCodeScannerOutlined />
               </IconButton>
             </Tooltip>
           </Box>
