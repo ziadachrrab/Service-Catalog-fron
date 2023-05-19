@@ -198,7 +198,7 @@ const Dashboard = () => {
                 <CWidgetStatsC
                   icon={<CIcon icon={cilBasket} height={42} />}
                   value="307,341"
-                  title="Products sold"
+                  title="Products Bought"
                   progress={{ color: 'success', value: 75 }}
                 />
               </CCardGroup>

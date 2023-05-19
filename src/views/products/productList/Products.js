@@ -30,6 +30,29 @@ const Products = () => {
   const [isSuccessToastOpen, setIsSuccessToastOpen] = useState(false)
   const [isSuccess, setIsSuccess] = useState(false)
   const navigate = useNavigate()
+
+  function handleViewDetails(row) {
+    const newCondition = row.original.condition
+    const Id = row.original.id
+    const Name = row.original.name
+    const Code = row.original.code
+    const Brand = row.original.brand
+    const Price = row.original.price
+    const InStock = row.original.inStock
+    const Warranty = row.original.warranty
+    navigate(`/products/productState`, {
+      state: {
+        condition: newCondition,
+        id: Id,
+        name: Name,
+        code: Code,
+        brand: Brand,
+        price: Price,
+        inStock: InStock,
+        warranty: Warranty,
+      },
+    })
+  }
   const fetchData = useCallback(async () => {
     try {
       // Make an API request to fetch data from the Oracle database
@@ -55,7 +78,7 @@ const Products = () => {
     brand: Yup.string().required('Brand is required'),
     price: Yup.number().typeError('Price must be a number').required('Price is required'),
     inStock: Yup.number().typeError('Quantity must be a number').required('Quantity is required'),
-    warranty: Yup.number().typeError('Warranty must be a number').required('Warranty is required'),
+    warranty: Yup.string().required('Warranty is required'),
     condition: Yup.string().required('Condition is required'),
   })
   const [setHasErrors] = useState(false)
@@ -269,7 +292,7 @@ const Products = () => {
         enableEditing: false,
         muiTableBodyCellEditTextFieldProps: ({ cell }) => ({
           ...getCommonEditTextFieldProps(cell),
-          type: 'number',
+          type: 'string',
         }),
       },
       {
@@ -349,7 +372,7 @@ const Products = () => {
               </IconButton>
             </Tooltip>
             <Tooltip arrow placement="bottom" title="View Details">
-              <IconButton color="primary" onClick={() => navigate(`/products/productState`)}>
+              <IconButton color="primary" onClick={() => handleViewDetails(row)}>
                 <Visibility />
               </IconButton>
             </Tooltip>
@@ -391,7 +414,7 @@ export const CreateNewAccountModal = ({ open, columns, onClose, onSubmit }) => {
       if (column.accessorKey !== 'id' && !values[column.accessorKey]) {
         errors[column.accessorKey] = 'Field required'
       } else if (
-        ['inStock', 'warranty', 'price'].includes(column.accessorKey) &&
+        ['inStock', 'price'].includes(column.accessorKey) &&
         isNaN(Number(values[column.accessorKey]))
       ) {
         errors[column.accessorKey] = 'Must be a number'
@@ -484,10 +507,14 @@ export const CreateNewAccountModal = ({ open, columns, onClose, onSubmit }) => {
                           }
                           fullWidth
                         >
-                          <MenuItem value="">Select Condition</MenuItem>
-                          <MenuItem value="New">New</MenuItem>
-                          <MenuItem value="Used - Like New">Used - Like New</MenuItem>
-                          <MenuItem value="Used">Used</MenuItem>
+                          <MenuItem value="" style={{ color: 'grey' }}>
+                            Select Condition
+                          </MenuItem>
+                          <MenuItem value="In Stock">In Stock</MenuItem>
+                          <MenuItem value="Installation">Installation</MenuItem>
+                          <MenuItem value="In Use">In Use</MenuItem>
+                          <MenuItem value="Maintenance">Maintenance</MenuItem>
+                          <MenuItem value="Recycled">Recycled</MenuItem>
                         </Select>
                       </FormControl>
                     ) : column.accessorKey === 'warranty' ? (
@@ -500,10 +527,12 @@ export const CreateNewAccountModal = ({ open, columns, onClose, onSubmit }) => {
                           }
                           fullWidth
                         >
-                          <MenuItem value="">Select Warranty</MenuItem>
-                          <MenuItem value={1}>1 Year</MenuItem>
-                          <MenuItem value={2}>2 Years</MenuItem>
-                          <MenuItem value={3}>3 Years</MenuItem>
+                          <MenuItem value="" style={{ color: 'grey' }}>
+                            Select Warranty
+                          </MenuItem>
+                          <MenuItem value={'1 Year'}>1 Year</MenuItem>
+                          <MenuItem value={'2 Years'}>2 Years</MenuItem>
+                          <MenuItem value={'3 Years'}>3 Years</MenuItem>
                         </Select>
                       </FormControl>
                     ) : (

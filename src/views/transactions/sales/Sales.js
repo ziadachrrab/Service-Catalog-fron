@@ -137,7 +137,7 @@ const Sales = () => {
                 </CTableHeaderCell>
                 <CTableHeaderCell>Client</CTableHeaderCell>
                 <CTableHeaderCell className="text-center">Country</CTableHeaderCell>
-                <CTableHeaderCell>Purchases</CTableHeaderCell>
+                <CTableHeaderCell>Sales</CTableHeaderCell>
                 <CTableHeaderCell className="text-center">Payment Method</CTableHeaderCell>
               </CTableRow>
             </CTableHead>

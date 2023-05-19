@@ -11,9 +11,8 @@ import 'simplebar/dist/simplebar.min.css'
 
 // sidebar nav config
 import navigation from '../_nav'
-import { cibAtom } from '@coreui/icons/dist/esm'
-import { logoNegative } from 'src/assets/brand/logo-negative'
-import { sygnet } from 'src/assets/brand/sygnet'
+import { cibAtAndT } from '@coreui/icons/dist/esm'
+import lightLogo from 'src/assets/images/light.png'
 
 const AppSidebar = () => {
   const dispatch = useDispatch()
@@ -29,14 +28,23 @@ const AppSidebar = () => {
         dispatch({ type: 'set', sidebarShow: visible })
       }}
     >
-      {/* <CSidebarBrand className="d-none d-md-flex" to="/">
-        <CIcon className="sidebar-brand-full" icon={cibAtom} height={35} />
-        <span className="sidebar-brand-text1">Service</span>
-        <span className="sidebar-brand-text2">HUB</span>
-      </CSidebarBrand> */}
       <CSidebarBrand className="d-none d-md-flex" to="/">
-        <CIcon className="sidebar-brand-full" icon={logoNegative} height={35} />
-        <CIcon className="sidebar-brand-narrow" icon={cibAtom} height={35} />
+        <div style={{ display: 'flex', alignItems: 'center' }}>
+          <CIcon
+            className="sidebar-brand-full"
+            icon={cibAtAndT}
+            height={45}
+            style={{ marginRight: '10px' }}
+          />
+          <img
+            className="sidebar-brand-full"
+            src={lightLogo}
+            alt="Logo"
+            height={43}
+            style={{ borderRadius: '10px' }}
+          />
+        </div>
+        <CIcon className="sidebar-brand-narrow" icon={cibAtAndT} height={35} />
       </CSidebarBrand>
       <CSidebarNav>
         <SimpleBar>
