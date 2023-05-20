@@ -4,7 +4,6 @@ import { CButton } from '@coreui/react'
 import CIcon from '@coreui/icons-react'
 import Model from 'src/assets/images/model.jpg'
 import { cilArrowThickToLeft } from '@coreui/icons'
-import { green } from '@mui/material/colors'
 
 function State() {
   const location = useLocation()
