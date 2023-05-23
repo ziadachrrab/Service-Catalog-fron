@@ -1,326 +1,85 @@
-import React from 'react'
-import { CRow, CCol, CDropdown, CDropdownToggle, CWidgetStatsA } from '@coreui/react'
-import { getStyle } from '@coreui/utils'
-import { CChartBar, CChartLine } from '@coreui/react-chartjs'
-import CIcon from '@coreui/icons-react'
-import { cilArrowBottom, cilArrowTop, cilOptions } from '@coreui/icons'
+import React, { useEffect, useState } from 'react'
+import { CRow, CCol, CCard, CCardBody } from '@coreui/react'
 
 const WidgetsDropdown = () => {
+  const [brandCount, setBrandCount] = useState(0)
+  useEffect(() => {
+    fetch('http://localhost:8080/brands/all')
+      .then((response) => response.json())
+      .then((data) => {
+        const rowCount = data.length
+        setBrandCount(rowCount)
+      })
+      .catch((error) => {
+        console.error('Error:', error)
+      })
+  }, [])
+  const [productCount, setProductCount] = useState(0)
+  useEffect(() => {
+    fetch('http://localhost:8080/products/all')
+      .then((response) => response.json())
+      .then((data) => {
+        const inStockCount = data.reduce((total, item) => total + item.inStock, 0)
+        setProductCount(inStockCount)
+      })
+      .catch((error) => {
+        console.error('Error:', error)
+      })
+  }, [])
+  const [priceCount, setPriceCount] = useState(0)
+  useEffect(() => {
+    fetch('http://localhost:8080/products/all')
+      .then((response) => response.json())
+      .then((data) => {
+        const priceCount = data.reduce((total, item) => total + item.price, 0)
+        setPriceCount(priceCount)
+      })
+      .catch((error) => {
+        console.error('Error:', error)
+      })
+  }, [])
   return (
     <CRow>
-      <CCol sm={6} lg={3}>
-        <CWidgetStatsA
-          className="mb-4"
-          color="primary"
-          value={
-            <>
-              2.3K{' '}
-              <span className="fs-6 fw-normal">
-                (10.4% <CIcon icon={cilArrowTop} />)
-              </span>
-            </>
-          }
-          title="Users"
-          action={
-            <CDropdown alignment="end">
-              <CDropdownToggle color="transparent" caret={false} className="p-0">
-                <CIcon icon={cilOptions} className="text-high-emphasis-inverse" />
-              </CDropdownToggle>
-            </CDropdown>
-          }
-          chart={
-            <CChartLine
-              className="mt-3 mx-3"
-              style={{ height: '90px' }}
-              data={{
-                labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July'],
-                datasets: [
-                  {
-                    label: 'My First dataset',
-                    backgroundColor: 'transparent',
-                    borderColor: 'rgba(255,255,255,.55)',
-                    pointBackgroundColor: getStyle('--cui-primary'),
-                    data: [65, 50, 74, 74, 62, 75, 80],
-                  },
-                ],
-              }}
-              options={{
-                plugins: {
-                  legend: {
-                    display: false,
-                  },
-                },
-                maintainAspectRatio: false,
-                scales: {
-                  x: {
-                    grid: {
-                      display: false,
-                      drawBorder: false,
-                    },
-                    ticks: {
-                      display: false,
-                    },
-                  },
-                  y: {
-                    min: 30,
-                    max: 89,
-                    display: false,
-                    grid: {
-                      display: false,
-                    },
-                    ticks: {
-                      display: false,
-                    },
-                  },
-                },
-                elements: {
-                  line: {
-                    borderWidth: 1,
-                    tension: 0.4,
-                  },
-                  point: {
-                    radius: 4,
-                    hitRadius: 10,
-                    hoverRadius: 4,
-                  },
-                },
-              }}
-            />
-          }
-        />
-      </CCol>
-      <CCol sm={6} lg={3}>
-        <CWidgetStatsA
-          className="mb-4"
-          color="danger"
-          value={
-            <>
-              7.49{' '}
-              <span className="fs-6 fw-normal">
-                (-24.7% <CIcon icon={cilArrowBottom} />)
-              </span>
-            </>
-          }
-          title="Conversion Rate"
-          action={
-            <CDropdown alignment="end">
-              <CDropdownToggle color="transparent" caret={false} className="p-0">
-                <CIcon icon={cilOptions} className="text-high-emphasis-inverse" />
-              </CDropdownToggle>
-            </CDropdown>
-          }
-          chart={
-            <CChartLine
-              className="mt-3"
-              style={{ height: '90px' }}
-              data={{
-                labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July'],
-                datasets: [
-                  {
-                    label: 'My First dataset',
-                    backgroundColor: 'rgba(255,255,255,.2)',
-                    borderColor: 'rgba(255,255,255,.55)',
-                    data: [78, 81, 80, 45, 34, 12, 40],
-                    fill: true,
-                  },
-                ],
-              }}
-              options={{
-                plugins: {
-                  legend: {
-                    display: false,
-                  },
-                },
-                maintainAspectRatio: false,
-                scales: {
-                  x: {
-                    display: false,
-                  },
-                  y: {
-                    display: false,
-                  },
-                },
-                elements: {
-                  line: {
-                    borderWidth: 2,
-                    tension: 0.4,
-                  },
-                  point: {
-                    radius: 0,
-                    hitRadius: 10,
-                    hoverRadius: 4,
-                  },
-                },
-              }}
-            />
-          }
-        />
-      </CCol>
-      <CCol sm={6} lg={3}>
-        <CWidgetStatsA
-          className="mb-4"
-          color="info"
-          value={
-            <>
-              151.532 DH{' '}
-              <span className="fs-6 fw-normal">
-                (80.9% <CIcon icon={cilArrowTop} />)
-              </span>
-            </>
-          }
-          title="Income"
-          action={
-            <CDropdown alignment="end">
-              <CDropdownToggle color="transparent" caret={false} className="p-0">
-                <CIcon icon={cilOptions} className="text-high-emphasis-inverse" />
-              </CDropdownToggle>
-            </CDropdown>
-          }
-          chart={
-            <CChartLine
-              className="mt-3 mx-3"
-              style={{ height: '90px' }}
-              data={{
-                labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July'],
-                datasets: [
-                  {
-                    label: 'My First dataset',
-                    backgroundColor: 'transparent',
-                    borderColor: 'rgba(255,255,255,.55)',
-                    pointBackgroundColor: getStyle('--cui-info'),
-                    data: [1, 18, 9, 17, 34, 30, 39],
-                  },
-                ],
-              }}
-              options={{
-                plugins: {
-                  legend: {
-                    display: false,
-                  },
-                },
-                maintainAspectRatio: false,
-                scales: {
-                  x: {
-                    grid: {
-                      display: false,
-                      drawBorder: false,
-                    },
-                    ticks: {
-                      display: false,
-                    },
-                  },
-                  y: {
-                    min: -9,
-                    max: 39,
-                    display: false,
-                    grid: {
-                      display: false,
-                    },
-                    ticks: {
-                      display: false,
-                    },
-                  },
-                },
-                elements: {
-                  line: {
-                    borderWidth: 1,
-                  },
-                  point: {
-                    radius: 4,
-                    hitRadius: 10,
-                    hoverRadius: 4,
-                  },
-                },
-              }}
-            />
-          }
-        />
-      </CCol>
-      <CCol sm={6} lg={3}>
-        <CWidgetStatsA
-          className="mb-4"
-          color="warning"
-          value={
-            <>
-              44K{' '}
-              <span className="fs-6 fw-normal">
-                (-23.6% <CIcon icon={cilArrowBottom} />)
-              </span>
-            </>
-          }
-          title="Sessions"
-          action={
-            <CDropdown alignment="end">
-              <CDropdownToggle color="transparent" caret={false} className="p-0">
-                <CIcon icon={cilOptions} className="text-high-emphasis-inverse" />
-              </CDropdownToggle>
-            </CDropdown>
-          }
-          chart={
-            <CChartBar
-              className="mt-3 mx-3"
-              style={{ height: '90px' }}
-              data={{
-                labels: [
-                  'January',
-                  'February',
-                  'March',
-                  'April',
-                  'May',
-                  'June',
-                  'July',
-                  'August',
-                  'September',
-                  'October',
-                  'November',
-                  'December',
-                  'January',
-                  'February',
-                  'March',
-                  'April',
-                ],
-                datasets: [
-                  {
-                    label: 'My First dataset',
-                    backgroundColor: 'rgba(255,255,255,.2)',
-                    borderColor: 'rgba(255,255,255,.55)',
-                    data: [78, 81, 60, 45, 34, 12, 40, 35, 65, 23, 12, 98, 34, 44, 67, 82],
-                    barPercentage: 0.6,
-                  },
-                ],
-              }}
-              options={{
-                maintainAspectRatio: false,
-                plugins: {
-                  legend: {
-                    display: false,
-                  },
-                },
-                scales: {
-                  x: {
-                    grid: {
-                      display: false,
-                      drawTicks: false,
-                    },
-                    ticks: {
-                      display: false,
-                    },
-                  },
-                  y: {
-                    grid: {
-                      display: false,
-                      drawBorder: false,
-                      drawTicks: false,
-                    },
-                    ticks: {
-                      display: false,
-                    },
-                  },
-                },
-              }}
-            />
-          }
-        />
+      <CCol xs>
+        <CCard className="mb-4">
+          <CCardBody>
+            <CRow>
+              <CCol xs={12} md={6} xl={6}>
+                <CRow>
+                  <CCol sm={6}>
+                    <div className="border-start border-start-4 border-start-info py-2 px-3">
+                      <div className="text-medium-emphasis small">Brands</div>
+                      <div className="fs-5 fw-semibold">{brandCount}</div>
+                    </div>
+                  </CCol>
+                  <CCol sm={6}>
+                    <div className="border-start border-start-4 border-start-success py-2 px-3 mb-3">
+                      <div className="text-medium-emphasis small">Products In Stock</div>
+                      <div className="fs-5 fw-semibold">{productCount}</div>
+                    </div>
+                  </CCol>
+                </CRow>
+              </CCol>
+
+              <CCol xs={12} md={6} xl={6}>
+                <CRow>
+                  <CCol sm={6}>
+                    <div className="border-start border-start-4 border-start-warning py-2 px-3 mb-3">
+                      <div className="text-medium-emphasis small">Total Money Spent (DH)</div>
+                      <div className="fs-5 fw-semibold">{priceCount}</div>
+                    </div>
+                  </CCol>
+                  <CCol sm={6}>
+                    <div className="border-start border-start-4 border-start-danger py-2 px-3 mb-3">
+                      <div className="text-medium-emphasis small">Organic</div>
+                      <div className="fs-5 fw-semibold">49,123</div>
+                    </div>
+                  </CCol>
+                </CRow>
+              </CCol>
+            </CRow>
+          </CCardBody>
+        </CCard>
       </CCol>
     </CRow>
   )

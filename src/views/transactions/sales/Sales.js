@@ -1,15 +1,15 @@
 import {
-  cibCcApplePay,
   cibCcMastercard,
-  cibCcPaypal,
   cibCcStripe,
   cibCcVisa,
   cifBr,
-  cifEs,
+  cifCn,
+  cifFr,
+  cifGb,
+  cifHr,
   cifIn,
   cifMa,
   cifPl,
-  cifUs,
   cilPeople,
 } from '@coreui/icons'
 import CIcon from '@coreui/icons-react'
@@ -26,102 +26,142 @@ import {
   CTableRow,
 } from '@coreui/react'
 import React from 'react'
-import avatar1 from 'src/assets/images/avatars/1.jpg'
-import avatar2 from 'src/assets/images/avatars/2.jpg'
-import avatar3 from 'src/assets/images/avatars/3.jpg'
-import avatar4 from 'src/assets/images/avatars/4.jpg'
-import avatar5 from 'src/assets/images/avatars/5.jpg'
-import avatar6 from 'src/assets/images/avatars/6.jpg'
+import Prf from 'src/assets/images/prf.png'
 
 const Sales = () => {
+  const getRandomPeriod = () => {
+    const startDate = new Date(Date.now() - Math.random() * 1000 * 60 * 60 * 24 * 365)
+    const endDate = new Date(startDate.getTime() + Math.random() * 1000 * 60 * 60 * 24 * 365)
+    const formattedStartDate = startDate.toDateString()
+    const formattedEndDate = endDate.toDateString()
+    return `${formattedStartDate} - ${formattedEndDate}`
+  }
   const tableExample = [
     {
-      avatar: { src: avatar1, status: 'success' },
+      avatar: { src: Prf, status: 'success' },
       user: {
-        name: 'Yiorgos Avraamu',
+        name: 'Ahmed Achrrab',
         new: true,
-        registered: 'Jan 1, 2021',
       },
       country: { name: 'Morocco', flag: cifMa },
       usage: {
-        value: 50,
-        period: 'Jun 11, 2021 - Jul 10, 2021',
-        color: 'success',
+        value: 75,
+        period: getRandomPeriod(),
+        color: 'info',
       },
       payment: { name: 'Mastercard', icon: cibCcMastercard },
-      activity: '10 sec ago',
     },
     {
-      avatar: { src: avatar2, status: 'danger' },
+      avatar: { src: Prf, status: 'danger' },
       user: {
         name: 'Avram Tarasios',
         new: false,
-        registered: 'Jan 1, 2021',
       },
       country: { name: 'Brazil', flag: cifBr },
       usage: {
         value: 22,
-        period: 'Jun 11, 2021 - Jul 10, 2021',
+        period: getRandomPeriod(),
         color: 'info',
       },
       payment: { name: 'Visa', icon: cibCcVisa },
       activity: '5 minutes ago',
     },
     {
-      avatar: { src: avatar3, status: 'warning' },
-      user: { name: 'Quintin Ed', new: true, registered: 'Jan 1, 2021' },
+      avatar: { src: Prf, status: 'danger' },
+      user: {
+        name: 'Friderik Dávid',
+        new: true,
+      },
+      country: { name: 'Poland', flag: cifPl },
+      usage: {
+        value: 43,
+        period: getRandomPeriod(),
+        color: 'success',
+      },
+      payment: { name: 'Amex', icon: cibCcMastercard },
+      activity: 'Last week',
+    },
+    {
+      avatar: { src: Prf, status: 'success' },
+      user: {
+        name: 'Wáng Wěi',
+        new: true,
+      },
+      country: { name: 'China', flag: cifCn },
+      usage: {
+        value: 85,
+        period: getRandomPeriod(),
+        color: 'success',
+      },
+      payment: { name: 'Mastercard', icon: cibCcMastercard },
+    },
+    {
+      avatar: { src: Prf, status: 'success' },
+      user: {
+        name: 'Ziad Achrrab ',
+        new: true,
+      },
+      country: { name: 'Morocco', flag: cifMa },
+      usage: {
+        value: 50,
+        period: getRandomPeriod(),
+        color: 'success',
+      },
+      payment: { name: 'Mastercard', icon: cibCcMastercard },
+    },
+    {
+      avatar: { src: Prf, status: 'warning' },
+      user: { name: 'Quintin Ed' },
       country: { name: 'India', flag: cifIn },
       usage: {
         value: 74,
-        period: 'Jun 11, 2021 - Jul 10, 2021',
+        period: getRandomPeriod(),
         color: 'warning',
       },
       payment: { name: 'Stripe', icon: cibCcStripe },
       activity: '1 hour ago',
     },
     {
-      avatar: { src: avatar4, status: 'secondary' },
-      user: { name: 'Enéas Kwadwo', new: true, registered: 'Jan 1, 2021' },
-      country: { name: 'USA', flag: cifUs },
+      avatar: { src: Prf, status: 'success' },
+      user: {
+        name: 'Emily Johnson',
+        new: true,
+      },
+      country: { name: 'Croatia', flag: cifHr },
       usage: {
-        value: 98,
-        period: 'Jun 11, 2021 - Jul 10, 2021',
+        value: 40,
+        period: getRandomPeriod(),
+        color: 'warning',
+      },
+      payment: { name: 'Mastercard', icon: cibCcMastercard },
+    },
+    {
+      avatar: { src: Prf, status: 'success' },
+      user: {
+        name: 'Daniel Rodriguez',
+        new: true,
+      },
+      country: { name: 'France', flag: cifFr },
+      usage: {
+        value: 90,
+        period: getRandomPeriod(),
         color: 'danger',
       },
-      payment: { name: 'PayPal', icon: cibCcPaypal },
-      activity: 'Last month',
+      payment: { name: 'Mastercard', icon: cibCcMastercard },
     },
     {
-      avatar: { src: avatar5, status: 'success' },
+      avatar: { src: Prf, status: 'success' },
       user: {
-        name: 'Agapetus Tadeáš',
+        name: 'Ethan Davis',
         new: true,
-        registered: 'Jan 1, 2021',
       },
-      country: { name: 'Spain', flag: cifEs },
+      country: { name: 'United Kingdom', flag: cifGb },
       usage: {
-        value: 22,
-        period: 'Jun 11, 2021 - Jul 10, 2021',
+        value: 60,
+        period: getRandomPeriod(),
         color: 'primary',
       },
-      payment: { name: 'Google Wallet', icon: cibCcApplePay },
-      activity: 'Last week',
-    },
-    {
-      avatar: { src: avatar6, status: 'danger' },
-      user: {
-        name: 'Friderik Dávid',
-        new: true,
-        registered: 'Jan 1, 2021',
-      },
-      country: { name: 'Poland', flag: cifPl },
-      usage: {
-        value: 43,
-        period: 'Jun 11, 2021 - Jul 10, 2021',
-        color: 'success',
-      },
-      payment: { name: 'Amex', icon: cibCcMastercard },
-      activity: 'Last week',
+      payment: { name: 'Mastercard', icon: cibCcMastercard },
     },
   ]
 
@@ -149,10 +189,6 @@ const Sales = () => {
                   </CTableDataCell>
                   <CTableDataCell>
                     <div>{item.user.name}</div>
-                    <div className="small text-medium-emphasis">
-                      <span>{item.user.new ? 'New' : 'Recurring'}</span> | Registered:{' '}
-                      {item.user.registered}
-                    </div>
                   </CTableDataCell>
                   <CTableDataCell className="text-center">
                     <CIcon size="xl" icon={item.country.flag} title={item.country.name} />

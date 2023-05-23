@@ -18,10 +18,22 @@ import {
   Select,
   InputLabel,
 } from '@mui/material'
-import { CToast, CToastClose, CToastBody } from '@coreui/react'
-import { Delete, Edit, Visibility, QrCodeScannerOutlined } from '@mui/icons-material'
+import {
+  CToast,
+  CToastClose,
+  CToastBody,
+  CButton,
+  CModalFooter,
+  CModalBody,
+  CModalTitle,
+  CModalHeader,
+  CModal,
+} from '@coreui/react'
+import { Delete, Edit, Visibility, VerticalAlignBottom } from '@mui/icons-material'
 import PropTypes from 'prop-types'
 import { useNavigate } from 'react-router-dom'
+import jsPDF from 'jspdf'
+import 'jspdf-autotable'
 
 const Products = () => {
   const [createModalOpen, setCreateModalOpen] = useState(false)
@@ -137,12 +149,74 @@ const Products = () => {
       }
     }
   }
+  // const [visible, setVisible] = useState(false)
+  // const handleDeleteRow = useCallback(
+  //   async (row) => {
+  //     setVisible(true)
 
+  //     const confirmed = await new Promise((resolve) => {
+  //       const handleConfirm = () => {
+  //         setVisible(false)
+  //         resolve(true)
+  //       }
+  //       const handleCancel = () => {
+  //         setVisible(false)
+  //         resolve(false)
+  //       }
+
+  //       ReactDOM.render(
+  //         <StaticBackdrop visible={visible} onClose={handleCancel} onConfirm={handleConfirm} />,
+  //         document.getElementById('confirmation-modal'),
+  //       )
+  //     })
+  //     if (confirmed) {
+  //       try {
+  //         const response = await fetch(
+  //           `http://localhost:8080/products/delete/${row.original.name}`,
+  //           {
+  //             method: 'DELETE',
+  //           },
+  //         )
+  //         if (response.ok) {
+  //           tableData.splice(row.index, 1)
+  //           setTableData([...tableData])
+  //           showDeleteToast()
+  //         } else {
+  //           console.error('Failed to delete a row')
+  //         }
+  //       } catch (error) {
+  //         console.error('Error occurred while deleting a row:', error)
+  //       }
+  //     }
+  //   },
+  //   [tableData],
+  // )
+  // const StaticBackdrop = ({ visible, onClose, onConfirm }) => {
+  //   return (
+  //     <CModal backdrop="static" visible={visible} onClose={onClose}>
+  //       <CModalHeader>
+  //         <CModalTitle>Modal title</CModalTitle>
+  //       </CModalHeader>
+  //       <CModalBody>I will not close if you click outside me.</CModalBody>
+  //       <CModalFooter>
+  //         <CButton color="secondary" onClick={onClose}>
+  //           Close
+  //         </CButton>
+  //         <CButton color="primary" onClick={onConfirm}>
+  //           Save changes
+  //         </CButton>
+  //       </CModalFooter>
+  //     </CModal>
+  //   )
+  // }
+  // StaticBackdrop.propTypes = {
+  //   visible: PropTypes.bool.isRequired,
+  //   onClose: PropTypes.func.isRequired,
+  //   onConfirm: PropTypes.func.isRequired,
+  // }
   const handleDeleteRow = useCallback(
     async (row) => {
-      if (!window.confirm(`Are you sure you want to delete ${row.original.name}?`)) {
-        return
-      }
+      setVisible(true)
       try {
         const response = await fetch(`http://localhost:8080/products/delete/${row.original.name}`, {
           method: 'DELETE',
@@ -160,6 +234,33 @@ const Products = () => {
     },
     [tableData],
   )
+  const generateQRCodeData = (product) => {
+    const { id, name, code, brand, price, inStock, warranty, condition } = product
+    const qrData = [
+      { label: 'ID', value: id },
+      { label: 'Name', value: name },
+      { label: 'Code', value: code },
+      { label: 'Brand', value: brand },
+      { label: 'Price', value: price },
+      { label: 'In Stock', value: inStock },
+      { label: 'Warranty', value: warranty },
+      { label: 'Condition', value: condition },
+    ]
+    return qrData
+  }
+  const downloadQRCode = (product) => {
+    const qrData = generateQRCodeData(product)
+    const pdf = new jsPDF()
+    const columns = ['Label', 'Value']
+    const rows = qrData.map((data) => [data.label, data.value])
+    pdf.autoTable({
+      head: [columns],
+      body: rows,
+      startY: 10,
+    })
+    pdf.save(`${product.name}_qr_code.pdf`)
+  }
+  const [visible, setVisible] = useState(false)
   const showDeleteToast = () => {
     setIsSuccessToastOpen(true)
   }
@@ -207,19 +308,6 @@ const Products = () => {
     },
     [validationErrors],
   )
-
-  function getBadgeClass(condition) {
-    switch (condition) {
-      case 'New':
-        return 'success'
-      case 'Used - Like new':
-        return 'bg-warning text-dark'
-      case 'Used':
-        return 'bg-danger'
-      default:
-        return 'bg-secondary'
-    }
-  }
   const columns = useMemo(
     () => [
       {
@@ -269,7 +357,7 @@ const Products = () => {
       },
       {
         accessorKey: 'price',
-        header: 'PRICE',
+        header: 'PRICE(DH)',
         size: 80,
         muiTableBodyCellEditTextFieldProps: ({ cell }) => ({
           ...getCommonEditTextFieldProps(cell),
@@ -303,11 +391,6 @@ const Products = () => {
           ...getCommonEditTextFieldProps(cell),
           type: 'string',
         }),
-        render: ({ row }) => (
-          <span className={`badge ${getBadgeClass(row.original.condition)}`}>
-            {row.original.condition}
-          </span>
-        ),
       },
     ],
     [getCommonEditTextFieldProps, navigate],
@@ -366,19 +449,19 @@ const Products = () => {
                 <Edit />
               </IconButton>
             </Tooltip>
-            <Tooltip arrow placement="bottom" title="Delete">
-              <IconButton color="error" onClick={() => handleDeleteRow(row)}>
-                <Delete />
-              </IconButton>
-            </Tooltip>
             <Tooltip arrow placement="bottom" title="View Details">
               <IconButton color="primary" onClick={() => handleViewDetails(row)}>
                 <Visibility />
               </IconButton>
             </Tooltip>
-            <Tooltip arrow placement="bottom" title="Download QR">
-              <IconButton color="primary">
-                <QrCodeScannerOutlined />
+            <Tooltip arrow placement="bottom" title="Delete">
+              <IconButton color="error" onClick={() => handleDeleteRow(row)}>
+                <Delete />
+              </IconButton>
+            </Tooltip>
+            <Tooltip arrow placement="bottom" title="Download Data">
+              <IconButton color="info" onClick={() => downloadQRCode(row.original)}>
+                <VerticalAlignBottom />
               </IconButton>
             </Tooltip>
           </Box>
@@ -395,6 +478,20 @@ const Products = () => {
         onClose={() => setCreateModalOpen(false)}
         onSubmit={handleCreateNewRow}
       />
+      <CModal backdrop="static" visible={visible} onClose={() => setVisible(false)}>
+        <CModalHeader>
+          <CModalTitle>Modal title</CModalTitle>
+        </CModalHeader>
+        <CModalBody>I will not close if you click outside my.</CModalBody>
+        <CModalFooter>
+          <CButton color="secondary" onClick={() => setVisible(false)}>
+            Close
+          </CButton>
+          <CButton color="primary" onClick={() => handleDeleteRow()}>
+            Save changes
+          </CButton>
+        </CModalFooter>
+      </CModal>
     </>
   )
 }
@@ -406,6 +503,13 @@ export const CreateNewAccountModal = ({ open, columns, onClose, onSubmit }) => {
       return acc
     }, {}),
   )
+  const [brands, setBrands] = useState([])
+  useEffect(() => {
+    fetch('http://localhost:8080/brands/all')
+      .then((response) => response.json())
+      .then((data) => setBrands(data))
+      .catch((error) => console.error('Error fetching brands:', error))
+  }, [])
   const [isSuccess, setIsSuccess] = useState(false)
   const [hasErrors, setHasErrors] = useState(false)
   const handleSubmit = async () => {
@@ -533,6 +637,26 @@ export const CreateNewAccountModal = ({ open, columns, onClose, onSubmit }) => {
                           <MenuItem value={'1 Year'}>1 Year</MenuItem>
                           <MenuItem value={'2 Years'}>2 Years</MenuItem>
                           <MenuItem value={'3 Years'}>3 Years</MenuItem>
+                        </Select>
+                      </FormControl>
+                    ) : column.accessorKey === 'brand' ? (
+                      <FormControl fullWidth>
+                        <InputLabel>SELECT BRAND</InputLabel>
+                        <Select
+                          value={values[column.accessorKey]}
+                          onChange={(e) =>
+                            setValues({ ...values, [column.accessorKey]: e.target.value })
+                          }
+                          fullWidth
+                        >
+                          <MenuItem value="" style={{ color: 'grey' }}>
+                            Select Brand
+                          </MenuItem>
+                          {brands.map((brand) => (
+                            <MenuItem key={brand.id} value={brand.name}>
+                              {brand.name}
+                            </MenuItem>
+                          ))}
                         </Select>
                       </FormControl>
                     ) : (

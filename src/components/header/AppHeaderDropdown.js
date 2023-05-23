@@ -8,7 +8,7 @@ import {
   CDropdownMenu,
   CDropdownToggle,
 } from '@coreui/react'
-import { cilSettings, cilUser, cilArrowThickFromRight } from '@coreui/icons'
+import { cilUser, cilArrowThickFromRight } from '@coreui/icons'
 import CIcon from '@coreui/icons-react'
 import profile from 'src/assets/images/prf.png'
 import { useNavigate } from 'react-router-dom'
@@ -34,16 +34,13 @@ const AppHeaderDropdown = () => {
       </CDropdownToggle>
       <CDropdownMenu className="pt-0" placement="bottom-end">
         <CDropdownHeader className="bg-light fw-semibold py-2">Account</CDropdownHeader>
-        <CDropdownItem href="#">
+        <CDropdownItem>
           <CIcon icon={cilUser} className="me-2" />
-          Profile
+          HH188206
         </CDropdownItem>
-        <CDropdownItem href="#">
-          <CIcon icon={cilSettings} className="me-2" />
-          Settings
-        </CDropdownItem>
+        <CDropdownItem>ADMIN</CDropdownItem>
         <CDropdownDivider />
-        <CDropdownItem onClick={handleLogout}>
+        <CDropdownItem onClick={handleLogout} href="#">
           <CIcon icon={cilArrowThickFromRight} className="me-2" />
           Log Out
         </CDropdownItem>

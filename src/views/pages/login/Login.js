@@ -94,13 +94,13 @@ const Login = () => {
                     {errorMessage && <div className="text-danger mb-3">{errorMessage}</div>}
                     <CRow>
                       <CCol xs={6}>
-                        <CButton type="submit" color="primary" className="px-4">
+                        <CButton
+                          type="submit"
+                          color="success"
+                          className="px-4"
+                          style={{ marginLeft: '125pripx' }}
+                        >
                           Login
-                        </CButton>
-                      </CCol>
-                      <CCol xs={6} className="text-right">
-                        <CButton color="link" className="px-0">
-                          Forgot password?
                         </CButton>
                       </CCol>
                     </CRow>
