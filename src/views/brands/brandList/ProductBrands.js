@@ -194,13 +194,11 @@ const Brands = () => {
               ? validateAge(+event.target.value)
               : validateRequired(event.target.value)
           if (!isValid) {
-            //set validation error for cell if invalid
             setValidationErrors({
               ...validationErrors,
               [cell.id]: `${cell.column.columnDef.header} is required`,
             })
           } else {
-            //remove validation error for cell if valid
             delete validationErrors[cell.id]
             setValidationErrors({
               ...validationErrors,

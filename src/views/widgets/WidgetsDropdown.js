@@ -47,13 +47,13 @@ const WidgetsDropdown = () => {
               <CCol xs={12} md={6} xl={6}>
                 <CRow>
                   <CCol sm={6}>
-                    <div className="border-start border-start-4 border-start-info py-2 px-3">
+                    <div className="border-start border-start-2 border-start-info py-2 px-3 mb-3">
                       <div className="text-medium-emphasis small">Brands</div>
                       <div className="fs-5 fw-semibold">{brandCount}</div>
                     </div>
                   </CCol>
                   <CCol sm={6}>
-                    <div className="border-start border-start-4 border-start-success py-2 px-3 mb-3">
+                    <div className="border-start border-start-2 border-start-success py-2 px-3 mb-3">
                       <div className="text-medium-emphasis small">Products In Stock</div>
                       <div className="fs-5 fw-semibold">{productCount}</div>
                     </div>
@@ -64,15 +64,15 @@ const WidgetsDropdown = () => {
               <CCol xs={12} md={6} xl={6}>
                 <CRow>
                   <CCol sm={6}>
-                    <div className="border-start border-start-4 border-start-warning py-2 px-3 mb-3">
-                      <div className="text-medium-emphasis small">Total Money Spent (DH)</div>
-                      <div className="fs-5 fw-semibold">{priceCount}</div>
+                    <div className="border-start border-start-2 border-start-danger py-2 px-3 mb-3">
+                      <div className="text-medium-emphasis small">To Be Delivered</div>
+                      <div className="fs-5 fw-semibold">504</div>
                     </div>
                   </CCol>
                   <CCol sm={6}>
-                    <div className="border-start border-start-4 border-start-danger py-2 px-3 mb-3">
-                      <div className="text-medium-emphasis small">Organic</div>
-                      <div className="fs-5 fw-semibold">49,123</div>
+                    <div className="border-start border-start-2 border-start-warning py-2 px-3 mb-3">
+                      <div className="text-medium-emphasis small">Total Money Spent (DH)</div>
+                      <div className="fs-5 fw-semibold">{priceCount}</div>
                     </div>
                   </CCol>
                 </CRow>

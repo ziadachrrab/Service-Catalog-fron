@@ -38,7 +38,7 @@ const AppHeaderDropdown = () => {
           <CIcon icon={cilUser} className="me-2" />
           HH188206
         </CDropdownItem>
-        <CDropdownItem>ADMIN</CDropdownItem>
+        <CDropdownHeader className="bg-light fw-semibold py-0">ADMIN</CDropdownHeader>
         <CDropdownDivider />
         <CDropdownItem onClick={handleLogout} href="#">
           <CIcon icon={cilArrowThickFromRight} className="me-2" />
