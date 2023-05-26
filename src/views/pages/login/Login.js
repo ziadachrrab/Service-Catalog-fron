@@ -47,7 +47,10 @@ const Login = () => {
   }
 
   return (
-    <div className="bg-light min-vh-100 d-flex flex-row align-items-center">
+    <div
+      style={{ backgroundColor: '#f5f5f5' }}
+      className="bg-light min-vh-100 d-flex flex-row align-items-center"
+    >
       <CContainer>
         <CRow className="justify-content-center">
           <CCol md={4}>

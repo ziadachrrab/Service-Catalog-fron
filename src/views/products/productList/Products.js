@@ -67,7 +67,6 @@ const Products = () => {
   }
   const fetchData = useCallback(async () => {
     try {
-      // Make an API request to fetch data from the Oracle database
       const response = await fetch('http://localhost:8080/products/all', {
         method: 'GET',
       })
@@ -97,7 +96,6 @@ const Products = () => {
   const handleCreateNewRow = async (values) => {
     try {
       await validationSchema.validate(values, { abortEarly: false })
-      // Make an API request to create a new row
       const response = await fetch('http://localhost:8080/products/add', {
         method: 'POST',
         headers: {
@@ -113,7 +111,6 @@ const Products = () => {
         setCreateModalOpen(false)
         fetchData()
       } else {
-        console.error('4444444444')
         setHasErrors(true)
       }
     } catch (error) {
@@ -128,7 +125,6 @@ const Products = () => {
   const handleSaveRowEdits = async ({ exitEditingMode, row, values }) => {
     if (!Object.keys(validationErrors).length) {
       try {
-        // Make an API request to update a row
         const response = await fetch(`http://localhost:8080/products/update/${row.original.name}`, {
           method: 'PUT',
           headers: {
@@ -149,91 +145,30 @@ const Products = () => {
       }
     }
   }
-  // const [visible, setVisible] = useState(false)
-  // const handleDeleteRow = useCallback(
-  //   async (row) => {
-  //     setVisible(true)
-
-  //     const confirmed = await new Promise((resolve) => {
-  //       const handleConfirm = () => {
-  //         setVisible(false)
-  //         resolve(true)
-  //       }
-  //       const handleCancel = () => {
-  //         setVisible(false)
-  //         resolve(false)
-  //       }
-
-  //       ReactDOM.render(
-  //         <StaticBackdrop visible={visible} onClose={handleCancel} onConfirm={handleConfirm} />,
-  //         document.getElementById('confirmation-modal'),
-  //       )
-  //     })
-  //     if (confirmed) {
-  //       try {
-  //         const response = await fetch(
-  //           `http://localhost:8080/products/delete/${row.original.name}`,
-  //           {
-  //             method: 'DELETE',
-  //           },
-  //         )
-  //         if (response.ok) {
-  //           tableData.splice(row.index, 1)
-  //           setTableData([...tableData])
-  //           showDeleteToast()
-  //         } else {
-  //           console.error('Failed to delete a row')
-  //         }
-  //       } catch (error) {
-  //         console.error('Error occurred while deleting a row:', error)
-  //       }
-  //     }
-  //   },
-  //   [tableData],
-  // )
-  // const StaticBackdrop = ({ visible, onClose, onConfirm }) => {
-  //   return (
-  //     <CModal backdrop="static" visible={visible} onClose={onClose}>
-  //       <CModalHeader>
-  //         <CModalTitle>Modal title</CModalTitle>
-  //       </CModalHeader>
-  //       <CModalBody>I will not close if you click outside me.</CModalBody>
-  //       <CModalFooter>
-  //         <CButton color="secondary" onClick={onClose}>
-  //           Close
-  //         </CButton>
-  //         <CButton color="primary" onClick={onConfirm}>
-  //           Save changes
-  //         </CButton>
-  //       </CModalFooter>
-  //     </CModal>
-  //   )
-  // }
-  // StaticBackdrop.propTypes = {
-  //   visible: PropTypes.bool.isRequired,
-  //   onClose: PropTypes.func.isRequired,
-  //   onConfirm: PropTypes.func.isRequired,
-  // }
-  const handleDeleteRow = useCallback(
-    async (row) => {
-      setVisible(true)
+  const [selectedRow, setSelectedRow] = useState(null)
+  const [visible, setVisible] = useState(false)
+  const handleDeleteRow = useCallback(async () => {
+    if (selectedRow) {
       try {
-        const response = await fetch(`http://localhost:8080/products/delete/${row.original.name}`, {
-          method: 'DELETE',
-        })
+        const response = await fetch(
+          `http://localhost:8080/products/delete/${selectedRow.original.name}`,
+          {
+            method: 'DELETE',
+          },
+        )
         if (response.ok) {
-          tableData.splice(row.index, 1)
+          tableData.splice(selectedRow.index, 1)
           setTableData([...tableData])
           showDeleteToast()
+          setVisible(false)
         } else {
           console.error('Failed to delete a row')
         }
       } catch (error) {
         console.error('Error occurred while deleting a row:', error)
       }
-    },
-    [tableData],
-  )
+    }
+  }, [selectedRow, tableData])
   const generateQRCodeData = (product) => {
     const { id, name, code, brand, price, inStock, warranty, condition } = product
     const qrData = [
@@ -260,7 +195,6 @@ const Products = () => {
     })
     pdf.save(`${product.name}_qr_code.pdf`)
   }
-  const [visible, setVisible] = useState(false)
   const showDeleteToast = () => {
     setIsSuccessToastOpen(true)
   }
@@ -291,13 +225,11 @@ const Products = () => {
               ? validateAge(+event.target.value)
               : validateRequired(event.target.value)
           if (!isValid) {
-            //set validation error for cell if invalid
             setValidationErrors({
               ...validationErrors,
               [cell.id]: `${cell.column.columnDef.header} is required`,
             })
           } else {
-            //remove validation error for cell if valid
             delete validationErrors[cell.id]
             setValidationErrors({
               ...validationErrors,
@@ -437,7 +369,7 @@ const Products = () => {
         }}
         columns={columns}
         data={tableData}
-        editingMode="modal" //default
+        editingMode="modal"
         enableColumnOrdering
         enableEditing
         onEditingRowSave={handleSaveRowEdits}
@@ -455,7 +387,13 @@ const Products = () => {
               </IconButton>
             </Tooltip>
             <Tooltip arrow placement="bottom" title="Delete">
-              <IconButton color="error" onClick={() => handleDeleteRow(row)}>
+              <IconButton
+                color="error"
+                onClick={() => {
+                  setSelectedRow(row)
+                  setVisible(true)
+                }}
+              >
                 <Delete />
               </IconButton>
             </Tooltip>
@@ -487,7 +425,7 @@ const Products = () => {
           <CButton color="secondary" onClick={() => setVisible(false)}>
             Close
           </CButton>
-          <CButton color="primary" onClick={() => handleDeleteRow()}>
+          <CButton color="primary" onClick={handleDeleteRow}>
             Save changes
           </CButton>
         </CModalFooter>

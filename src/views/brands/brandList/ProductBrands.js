@@ -119,28 +119,30 @@ const Brands = () => {
     }
   }
 
-  const handleDeleteRow = useCallback(
-    async (row) => {
-      if (!window.confirm(`Are you sure you want to delete ${row.original.name}?`)) {
-        return
-      }
+  const [selectedRow, setSelectedRow] = useState(null)
+  const [visible, setVisible] = useState(false)
+  const handleDeleteRow = useCallback(async () => {
+    if (selectedRow) {
       try {
-        const response = await fetch(`http://localhost:8080/brands/delete/${row.original.name}`, {
-          method: 'DELETE',
-        })
+        const response = await fetch(
+          `http://localhost:8080/brands/delete/${selectedRow.original.name}`,
+          {
+            method: 'DELETE',
+          },
+        )
         if (response.ok) {
-          tableData.splice(row.index, 1)
+          tableData.splice(selectedRow.index, 1)
           setTableData([...tableData])
           showDeleteToast()
+          setVisible(false)
         } else {
           console.error('Failed to delete a row')
         }
       } catch (error) {
         console.error('Error occurred while deleting a row:', error)
       }
-    },
-    [tableData],
-  )
+    }
+  }, [selectedRow, tableData])
   const StaticBackdrop = () => {
     const [visible, setVisible] = useState(false)
     return (
@@ -304,7 +306,13 @@ const Brands = () => {
               </IconButton>
             </Tooltip>
             <Tooltip arrow placement="bottom" title="Delete">
-              <IconButton color="error" onClick={() => handleDeleteRow(row)}>
+              <IconButton
+                color="error"
+                onClick={() => {
+                  setSelectedRow(row)
+                  setVisible(true)
+                }}
+              >
                 <Delete />
               </IconButton>
             </Tooltip>
@@ -322,6 +330,20 @@ const Brands = () => {
         onClose={() => setCreateModalOpen(false)}
         onSubmit={handleCreateNewRow}
       />
+      <CModal backdrop="static" visible={visible} onClose={() => setVisible(false)}>
+        <CModalHeader>
+          <CModalTitle>Modal title</CModalTitle>
+        </CModalHeader>
+        <CModalBody>I will not close if you click outside my.</CModalBody>
+        <CModalFooter>
+          <CButton color="secondary" onClick={() => setVisible(false)}>
+            Close
+          </CButton>
+          <CButton color="primary" onClick={handleDeleteRow}>
+            Save changes
+          </CButton>
+        </CModalFooter>
+      </CModal>
     </>
   )
 }

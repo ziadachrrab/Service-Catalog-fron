@@ -14,7 +14,6 @@ const AddBrand = React.lazy(() => import('./views/brands/addBrand/AddBrand'))
 //Transactions
 const Sales = React.lazy(() => import('./views/transactions/sales/Sales'))
 const Purchases = React.lazy(() => import('./views/transactions/purchases/Purchases'))
-const Barcode = React.lazy(() => import('./views/transactions/barcode/Barcode'))
 
 const Widgets = React.lazy(() => import('./views/widgets/Widgets'))
 
@@ -30,7 +29,6 @@ const routes = [
   { path: '/transactions', name: 'Transactions', element: Sales, exact: true },
   { path: '/transactions/sales', name: 'Sales', element: Sales },
   { path: '/transactions/purchases', name: 'Purchases', element: Purchases },
-  { path: '/transactions/barcode', name: 'Barcode', element: Barcode },
   { path: '/theme', name: 'Theme', element: Colors, exact: true },
   { path: '/theme/colors', name: 'Colors', element: Colors },
   { path: '/theme/typography', name: 'Typography', element: Typography },
