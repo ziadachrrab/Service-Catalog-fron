@@ -16,21 +16,20 @@ function State() {
   const inStock = location.state && location.state.inStock
   const warranty = location.state && location.state.warranty
   useEffect(() => {
+    function activateCheckbox() {
+      const radios = document.querySelectorAll('.form-check-input')
+      radios.forEach((checkbox) => {
+        const checkboxName = checkbox.name
+        if (checkboxName === condition) {
+          checkbox.checked = true
+        } else {
+          checkbox.checked = false
+        }
+        checkbox.disabled = true
+      })
+    }
     activateCheckbox()
-  }, [])
-  function activateCheckbox() {
-    const radios = document.querySelectorAll('.form-check-input')
-
-    radios.forEach((checkbox) => {
-      const checkboxName = checkbox.name
-      if (checkboxName === condition) {
-        checkbox.checked = true
-      } else {
-        checkbox.checked = false
-      }
-      checkbox.disabled = true
-    })
-  }
+  }, [condition])
   return (
     <>
       <div
