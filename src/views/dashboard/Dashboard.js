@@ -1,4 +1,4 @@
-import { cilArrowThickToBottom, cilCheck, cilCheckAlt, cilCog, cilRecycle } from '@coreui/icons'
+import { cilArrowThickToBottom, cilCheck, cilCog, cilRecycle } from '@coreui/icons'
 import CIcon from '@coreui/icons-react'
 import { CCard, CCardGroup, CCardHeader, CCol, CProgress, CRow, CWidgetStatsC } from '@coreui/react'
 import React, { useEffect, useState } from 'react'
