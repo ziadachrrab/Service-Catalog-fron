@@ -32,6 +32,8 @@ import {
 import { Delete, Edit, Visibility, VerticalAlignBottom } from '@mui/icons-material'
 import PropTypes from 'prop-types'
 import { useNavigate } from 'react-router-dom'
+import OCP from 'src/assets/images/OCP_logo.svg.png'
+import OCPG from 'src/assets/images/OCPG.png'
 import jsPDF from 'jspdf'
 import 'jspdf-autotable'
 
@@ -169,7 +171,7 @@ const Products = () => {
       }
     }
   }, [selectedRow, tableData])
-  const generateQRCodeData = (product) => {
+  const generateCodeData = (product) => {
     const { id, name, code, brand, price, inStock, warranty, condition } = product
     const qrData = [
       { label: 'ID', value: id },
@@ -184,16 +186,31 @@ const Products = () => {
     return qrData
   }
   const downloadQRCode = (product) => {
-    const qrData = generateQRCodeData(product)
+    const data = generateCodeData(product)
     const pdf = new jsPDF()
     const columns = ['Label', 'Value']
-    const rows = qrData.map((data) => [data.label, data.value])
+    const rows = data.map((data) => [data.label, data.value])
+    const logoLeftWidth = 30
+    const logoLeftHeight = 30
+    const logoRightWidth = 33
+    const logoRightHeight = 33
+    pdf.addImage(OCP, 'PNG', 10, 5, logoLeftWidth, logoLeftHeight)
+    pdf.addImage(OCPG, 'PNG', 170, 5, logoRightWidth, logoRightHeight)
+
+    pdf.setFont('helvetica', 'bolder')
+    const headerText = 'Product Info:'
+    const headerFontSize = 20
+    const headerX = pdf.internal.pageSize.getWidth() / 2
+    const headerY = 50
+    pdf.setFontSize(headerFontSize)
+    pdf.text(headerText, headerX, headerY, 'center')
+    pdf.setFont('helvetica', 'normal')
     pdf.autoTable({
       head: [columns],
       body: rows,
-      startY: 10,
+      startY: 60,
     })
-    pdf.save(`${product.name}_qr_code.pdf`)
+    pdf.save(`${product.name}.pdf`)
   }
   const showDeleteToast = () => {
     setIsSuccessToastOpen(true)
@@ -418,15 +435,15 @@ const Products = () => {
       />
       <CModal backdrop="static" visible={visible} onClose={() => setVisible(false)}>
         <CModalHeader>
-          <CModalTitle>Modal title</CModalTitle>
+          <CModalTitle>Delete!</CModalTitle>
         </CModalHeader>
-        <CModalBody>I will not close if you click outside my.</CModalBody>
+        <CModalBody>Are you sure u want to delete this row?</CModalBody>
         <CModalFooter>
           <CButton color="secondary" onClick={() => setVisible(false)}>
-            Close
+            Cancel
           </CButton>
-          <CButton color="primary" onClick={handleDeleteRow}>
-            Save changes
+          <CButton color="danger" onClick={handleDeleteRow}>
+            Confirm
           </CButton>
         </CModalFooter>
       </CModal>
