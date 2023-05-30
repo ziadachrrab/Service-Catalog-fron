@@ -299,6 +299,7 @@ const Products = () => {
       {
         accessorKey: 'brand',
         header: 'BRAND',
+        enableEditing: false,
         muiTableBodyCellEditTextFieldProps: ({ cell }) => ({
           ...getCommonEditTextFieldProps(cell),
           type: 'string',
@@ -439,7 +440,7 @@ const Products = () => {
         </CModalHeader>
         <CModalBody>Are you sure u want to delete this row?</CModalBody>
         <CModalFooter>
-          <CButton color="secondary" onClick={() => setVisible(false)}>
+          <CButton color="info" onClick={() => setVisible(false)}>
             Cancel
           </CButton>
           <CButton color="danger" onClick={handleDeleteRow}>
